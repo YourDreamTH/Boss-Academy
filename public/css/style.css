@@ -440,127 +440,6 @@ footer {
     font-size: .9rem;
 }
 
-@media (max-width: 768px) {
-
-    html {
-        font-size: 14px;
-    }
-
-    body {
-        overflow-x: hidden;
-    }
-
-    /* HERO */
-    .hero-section {
-        height: auto;
-        padding: 80px 20px;
-    }
-
-    .hero img {
-        width: 90%;
-        max-width: 350px;
-    }
-
-    .hero-text {
-        font-size: 48px !important;
-        margin-top: 0;
-        position: relative;
-    }
-
-    .hero-text .boss {
-        font-size: 60px !important;
-    }
-
-    .hero-text .academy {
-        font-size: 40px !important;
-    }
-
-    /* NAV */
-    nav {
-        gap: 20px;
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
-    }
-
-    .nav-section {
-        gap: 15px;
-        padding: 10px 15px;
-        font-size: 14px;
-        flex-wrap: wrap;
-    }
-
-    /* BOX */
-    .box1 h2,
-    .box2 h2 {
-        font-size: 28px !important;
-    }
-
-    .box1 p,
-    .box2 p,
-    .box1 li {
-        font-size: 14px !important;
-    }
-
-    .box1,
-    .box2 {
-        width: 100%;
-        border-radius: 30px 30px 0 0;
-        padding: 40px 15px;
-    }
-
-    /* FEATURES */
-    .feature-grid {
-        grid-template-columns: 1fr !important;
-        gap: 15px;
-    }
-
-    .feature-card {
-        padding: 20px;
-    }
-
-    /* LOGIN */
-    .login-container {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .login-card {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .login-logo h1 {
-        font-size: 2rem;
-    }
-
-    .profile-card {
-        width: 95%;
-        padding: 20px;
-    }
-
-    #avatar {
-        width: 100px !important;
-        height: 100px !important;
-    }
-
-    .avatar {
-        width: 100px !important;
-        height: 100px !important;
-    }
-
-    #username {
-        font-size: 1.2rem !important;
-    }
-
-    /* BUTTONS */
-    .profile_btn,
-    .admin-btn {
-        width: 100%;
-    }
-}
-
-
 .login-page {
     min-height: 100vh;
     display: flex;
@@ -655,43 +534,6 @@ footer {
 
 .register-link a {
     color: var(--red-color);
-}
-
-@media (max-width: 768px) {
-
-    .login-container {
-        flex-direction: column;
-        gap: 30px;
-        padding: 20px;
-    }
-
-    .login-card {
-        width: 90%;
-        max-width: 400px;
-    }
-
-    .login-logo h1 {
-        font-size: 2.5rem;
-    }
-
-    .login-logo img {
-        width: 120px;
-    }
-
-    .profile-card {
-    width: 70%;
-    height: 70%;
-    margin: 60px auto;
-    padding: 30px;
-    background: linear-gradient(
-        180deg,
-        #1f1f25,
-        #141418
-    );
-    border: 2px solid #ff2e2e;
-    border-radius: 25px;
-    text-align: center;
-}
 }
 
 .boss-modal {
@@ -922,4 +764,144 @@ footer {
 .admin-btn:hover{
     background:#3b82f6;
     transform:translateY(-2px);
+}
+@media (max-width: 1024px) {
+
+    nav {
+        gap: 80px;
+        padding: 0 20px;
+    }
+
+    .hero-text {
+        font-size: 120px;
+    }
+
+    .hero-text .boss {
+        font-size: 160px;
+    }
+
+    .hero-text .academy {
+        font-size: 130px;
+    }
+
+    .hero img {
+        width: 500px;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .box1 h2,
+    .box2 h2 {
+        font-size: 50px;
+    }
+}
+
+/* =========================
+   MOBILE (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+        height: auto;
+        padding: 15px 10px;
+    }
+
+    .nav-section {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .hero-section {
+        height: auto;
+        margin-top: 20px;
+        padding: 40px 0;
+    }
+
+    .hero img {
+        width: 320px;
+    }
+
+    .hero-text {
+        font-size: 60px;
+        margin-top: -40px;
+    }
+
+    .hero-text .boss {
+        font-size: 80px;
+    }
+
+    .hero-text .academy {
+        font-size: 70px;
+    }
+
+    .box1,
+    .box2 {
+        width: 100%;
+        border-radius: 40px 40px 0 0;
+        padding: 40px 20px;
+    }
+
+    .box1 h2,
+    .box2 h2 {
+        font-size: 36px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+        margin: 0;
+    }
+
+    .login-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .login-card {
+        width: 90%;
+    }
+
+    .profile-card {
+        width: 90%;
+    }
+}
+
+/* =========================
+   SMALL MOBILE (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+
+    .hero-text {
+        font-size: 40px;
+    }
+
+    .hero-text .boss {
+        font-size: 55px;
+    }
+
+    .hero-text .academy {
+        font-size: 50px;
+    }
+
+    .hero img {
+        width: 260px;
+    }
+
+    .nav-section {
+        font-size: 12px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
 }
