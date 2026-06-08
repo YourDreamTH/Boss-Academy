@@ -534,7 +534,6 @@ footer {
         font-size: 2rem;
     }
 
-    /* PROFILE */
     .profile-card {
         width: 95%;
         padding: 20px;
@@ -678,6 +677,21 @@ footer {
     .login-logo img {
         width: 120px;
     }
+
+    .profile-card {
+    width: 70%;
+    height: 70%;
+    margin: 60px auto;
+    padding: 30px;
+    background: linear-gradient(
+        180deg,
+        #1f1f25,
+        #141418
+    );
+    border: 2px solid #ff2e2e;
+    border-radius: 25px;
+    text-align: center;
+}
 }
 
 .boss-modal {
