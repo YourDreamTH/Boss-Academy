@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Game | Boss Academy</title>
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="shortcut icon" href="image/logo1.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <div class="top-buttons">
+        <button class="leave-btn" onclick="window.location.href='/'">
+            Leave
+        </button>
+    </div>
+    <div class="game-screen">
+
+        <h1 class="title">🎮 Boss Academy</h1>
+        <div id="timer" class="timer">
+            Time: 10
+        </div>
+        <div class="battle-arena">
+
+            <!-- LEFT: BOSS -->
+            <div class="boss-panel">
+
+                <div class="hp-wrap">
+                    <div id="hpBarContainer">
+                        <div id="hpBar"></div>
+                    </div>
+                    <div id="bossHP" class="hp-text">Boss HP: 100</div>
+                </div>
+
+                <div class="boss-wrapper">
+                    <img id="boss" src="image/boss_idle.png" class="boss">
+                </div>
+
+            </div>
+
+            <!-- RIGHT: UI -->
+            <div class="ui-panel">
+
+                <div class="stats-card">
+
+                    <div id="hearts" class="life-container">
+                        <div class="life-orb active"></div>
+                        <div class="life-orb active"></div>
+                        <div class="life-orb active"></div>
+                    </div>
+
+                    <div class="xp-container">
+                        <div id="xpBar"></div>
+                    </div>
+
+                    <div class="stats-row">
+                        <span id="xp">XP: 0 / 500</span>
+                        <span id="level">Level: 1</span>
+                    </div>
+
+                    <div class="stats-row">
+                        <span id="score">Score: 0</span>
+                        <span id="combo">Combo: 0</span>
+                    </div>
+
+                </div>
+
+                <div class="question-card">
+                    <h2 id="question">Loading...</h2>
+                </div>
+
+                <div class="options">
+                    <button id="option1" onclick="checkAnswer(1)" data-answer=""></button>
+                    <button id="option2" onclick="checkAnswer(2)" data-answer=""></button>
+                    <button id="option3" onclick="checkAnswer(3)" data-answer=""></button>
+                    <button id="option4" onclick="checkAnswer(4)" data-answer=""></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div id="endCard" class="end-card hidden">
+        <div class="end-box">
+            <h1 id="endText">YOU WIN!</h1>
+
+            <p>Want to play again?</p>
+
+            <div class="end-buttons">
+                <button onclick="restartGame()">Play again</button>
+                <button onclick="quitGame()">Leave</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/game.js"></script>
+    <!-- <script>
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            alert("Please login first!");
+            window.location.href = "login.html";
+        }
+    </script> -->
+</body>
+
+</html>

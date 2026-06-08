@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Quicksand:wght@300..700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: white;
+    background: radial-gradient(circle at top, #1a1a22, #0d0d12);
+    background-attachment: fixed;
+    padding: 10px;
+}
+
+/* ===== CONTAINER ===== */
+.leaderboard {
+    width: 100%;
+    max-width: 650px;   /* ✅ แทน fixed width */
+    margin: 40px auto;
+    padding: 16px;
+
+    background: rgba(25, 25, 35, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+}
+
+/* ===== TITLE ===== */
+h2 {
+    text-align: center;
+    color: #ffcc00;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    font-size: clamp(18px, 2.5vw, 24px); /* ✅ responsive font */
+}
+
+/* ===== TABLE WRAPPER (สำคัญมาก) ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+/* ===== SCROLL ON SMALL SCREEN ===== */
+.leaderboard {
+    overflow-x: auto; /* ✅ กันตารางล้น */
+}
+
+/* ===== TABLE CELLS ===== */
+th, td {
+    padding: 10px;
+    text-align: center;
+    font-size: clamp(12px, 2vw, 15px);
+}
+
+/* ===== HEADER ===== */
+th {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffcc00;
+}
+
+/* ===== ROW EFFECT ===== */
+.row {
+    transition: 0.2s;
+}
+
+.row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ===== PLAYER ===== */
+.player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap; /* ✅ กัน overflow */
+}
+
+/* ===== AVATAR ===== */
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    object-fit: cover;
+}
+
+/* ===== TOP BUTTON ===== */
+.top-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.leave-btn {
+    background: #ff3b3b;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.leave-btn:hover {
+    transform: scale(1.05);
+    background: #ff1f1f;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+    .leaderboard {
+        margin: 20px auto;
+        padding: 12px;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}

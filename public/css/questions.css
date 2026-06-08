@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Quicksand:wght@300..700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.form-box{
+    background:#1e293b;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#334155;
+    color:white;
+}
+
+button{
+    margin-top:15px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#1e293b;
+    overflow:hidden;
+    border-radius:15px;
+}
+
+thead{
+    background:#334155;
+}
+
+th,
+td{
+    padding:12px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#263548;
+}
+
+tr:hover{
+    background:#334155;
+}

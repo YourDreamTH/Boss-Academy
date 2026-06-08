@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss Academy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="image/logo1.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="header">
+        <nav class="nav-header">
+
+            <ul>
+                <li><a href="#logo"><img src="image/logo1.png" alt="logo" id="logo" class="logo"></a></li>
+            </ul>
+            <ul class="nav-section">
+                <li><a href="game.html" id="playBtn">Play</a></li>
+                <li><a href="#" id="profileBtn">Profile</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+
+            <ul>
+                <li>
+
+                    <div class="profile-box" id="profileBox">
+                        <img id="avatar" src="image/default-avatar.png" alt="avatar">
+                        <span id="username"></span>
+                    </div>
+                    <a href="login.html" id="loginBtn" class="hero-login">
+                        Login
+                    </a>
+
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="hero-section">
+        <div class="orbs">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="hero">
+
+            <div class="hero-text">
+                <h2 class="boss">Boss</h2>
+                <h2 class="academy">Academy</h2>
+            </div>
+            <div class="hero-image">
+                <img src="image/min-bg.png" alt="">
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="orbs">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="box1">
+            <h2>What is Boss Academy?</h2>
+            <p>Boss Academy is a gamified learning platform that turns skill-building into an exciting adventure.</p>
+            <ul>
+                <li>⚔️ Defeat bosses by completing challenges</li>
+                <li>🧠 Earn XP for every correct answer</li>
+                <li>📈 Level up your knowledge and abilities</li>
+            </ul>
+        </div>
+        <div class="line-container">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+        </div>
+        <div class="box2">
+            <h2>How to Play Boss Academy?</h2>
+            <h3>⚔️ Choose a Challenge </h3>
+            <p>Pick a challenge and start your adventure.</p>
+
+            <h3>🧠 Answer & Learn </h3>
+            <p> Complete tasks to gain knowledge and experience.</p>
+
+            <h3>🏆 Defeat Bosses & Level Up </h3>
+            <p>Earn XP, grow stronger, and become the ultimate learner.</p>
+
+        </div>
+        <section class="features">
+            <h2 class="section-title">⚡ Features</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📚 Question Bank</h3>
+                    <p>Practice with a variety of challenges and questions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚔️ Boss Fights</h3>
+                    <p>Defeat bosses by completing challenges and tasks.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⭐ XP & Levels</h3>
+                    <p>Earn experience points and level up your skills.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🏆 Leaderboard</h3>
+                    <p>Compete with others and climb the rankings.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📈 Progress</h3>
+                    <p>Track your growth and achievements over time.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎯 Skill Training</h3>
+                    <p>Improve essential skills through interactive challenges.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content"> <img src="image/logo1.png" alt="">
+            <h3>Boss Academy</h3>
+            <p> Train Skills. Defeat Bosses. Level Up. </p>
+            <div class="footer-links"> <a href="#">Play</a> <a href="#">Profile</a> <a href="#">Leaderboard</a>
+            </div>
+            <p class="copyright"> © 2026 Boss Academy. All Rights Reserved. </p>
+        </div>
+    </footer>
+    <div id="loginModal" class="boss-modal">
+
+        <div class="boss-modal-card">
+
+            <span class="close-modal" id="closeModal">
+                ✕
+            </span>
+
+            <h2>⚔️ Login Required</h2>
+
+            <p>
+                You must create an account before entering the battle.
+            </p>
+
+            <div class="modal-buttons">
+
+                <button class="login-btn" onclick="location.href='login.html'">
+                    Login
+                </button>
+
+                <button class="register-btn" onclick="location.href='register.html'">
+                    Register
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            const loginBtn = document.getElementById("loginBtn");
+            const playBtn = document.getElementById("playBtn");
+            const profileBox = document.getElementById("profileBox");
+            const profileBtn = document.getElementById("profileBtn");
+            const modal = document.getElementById("loginModal");
+            const closeModal = document.getElementById("closeModal");
+
+            if (user && user.role === "admin") {
+
+                const adminBox = document.getElementById("adminButtonContainer");
+
+                if (user && user.role === "admin" && adminBox) {
+                    adminBox.innerHTML = `
+        <button class="admin-btn"
+            onclick="location.href='/public/admin/dashboard.html'">
+            👑 Admin Dashboard
+        </button>
+    `;
+                }
+            }
+            setInterval(() => {
+
+                if (!user) return;
+
+                fetch("/online", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: user.id
+                    })
+                });
+
+            }, 10000);
+            if (user) {
+
+                fetch("/online", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: user.id
+                    })
+                });
+
+            }
+
+            closeModal.addEventListener("click", () => {
+                modal.classList.remove("show");
+            });
+
+            function resetModal() {
+                modal.querySelector("h2").textContent = "";
+                modal.querySelector("p").textContent = "";
+
+                const loginBtn = modal.querySelector(".login-btn");
+                const registerBtn = modal.querySelector(".register-btn");
+
+                loginBtn.style.background = "";
+                loginBtn.onclick = null;
+                registerBtn.onclick = null;
+            }
+            modal.addEventListener("click", (e) => {
+
+                if (e.target === modal) {
+                    modal.classList.remove("show");
+                }
+
+            });
+
+            // กด ESC เพื่อปิด
+            document.addEventListener("keydown", (e) => {
+
+                if (e.key === "Escape") {
+                    modal.classList.remove("show");
+                }
+
+            });
+
+            // Login แล้ว
+            if (user) {
+
+                loginBtn.style.display = "none";
+
+                profileBox.style.display = "flex";
+
+                document.getElementById("username").textContent =
+                    user.username;
+
+                document.getElementById("avatar").src =
+                    user.avatar
+                        ? "/uploads/" + user.avatar
+                        : "image/default-avatar.png";
+
+                profileBox.addEventListener("click", () => {
+
+                    modal.querySelector("h2").textContent =
+                        "🚪 Logout";
+
+                    modal.querySelector("p").textContent =
+                        "Do you want to logout from Boss Academy?";
+
+                    modal.querySelector(".login-btn").textContent =
+                        "Logout";
+
+                    modal.querySelector(".login-btn").style.background =
+                        "#ff2e2e";
+
+                    modal.querySelector(".login-btn").onclick = logout;
+
+                    modal.querySelector(".register-btn").textContent =
+                        "Cancel";
+
+                    modal.querySelector(".register-btn").onclick = () => {
+
+                        modal.classList.remove("show");
+
+                    };
+
+                    modal.classList.add("show");
+
+                });
+
+            }
+            function logout() {
+                localStorage.removeItem("user");
+                window.location.href = "index.html";
+            }
+            playBtn.addEventListener("click", (e) => {
+
+                e.preventDefault();
+
+                const user =
+                    JSON.parse(localStorage.getItem("user"));
+
+
+
+                if (!user) {
+
+                    modal.querySelector("h2").textContent =
+                        "⚔️ Login Required";
+
+                    modal.querySelector("p").textContent =
+                        "You must create an account before entering the battle.";
+
+                    modal.classList.add("show");
+
+                    return;
+                }
+
+                window.location.href = "game.html";
+
+            });
+
+            // Profile
+            profileBtn.addEventListener("click", (e) => {
+
+                e.preventDefault();
+
+                const user =
+                    JSON.parse(localStorage.getItem("user"));
+
+
+                if (!user) {
+
+                    modal.querySelector("h2").textContent =
+                        "⚔️ Login Required";
+
+                    modal.querySelector("p").textContent =
+                        "You must login before viewing your profile.";
+
+                    modal.classList.add("show");
+
+                    return;
+                }
+
+                window.location.href = "profile.html";
+
+            });
+        });
+    </script>
+</body>
+
+</html>
