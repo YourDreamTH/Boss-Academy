@@ -87,9 +87,32 @@ app.post("/game/submit", (req, res) => {
     });
 });
 
-// =====================
-// QUESTIONS
-// =====================
+app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "No file uploaded" });
+        }
+
+        const filePath = "/uploads/" + req.file.filename;
+
+        // ถ้าคุณมี userId ส่งมาด้วย
+        const userId = req.body.userId;
+
+        if (userId) {
+            db.prepare("UPDATE users SET avatar=? WHERE id=?")
+                .run(filePath, userId);
+        }
+
+        res.json({
+            success: true,
+            avatar: filePath
+        });
+
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 app.get("/questions", (req, res) => {
     const rows = db.prepare("SELECT * FROM questions ORDER BY id DESC").all();
     res.json(rows);

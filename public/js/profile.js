@@ -17,12 +17,12 @@ async function loadProfile() {
         const res = await fetch(`/profile/${user.id}?t=${Date.now()}`);
         const profile = await res.json();
 
-        document.getElementById("username").textContent = profile.username;
-        document.getElementById("level").textContent = "Level: " + profile.level;
-        document.getElementById("xp").textContent = "XP: " + profile.xp;
+        document.getElementById("username").textContent = profile.username || "-";
+        document.getElementById("level").textContent = "Level: " + (profile.level ?? 1);
+        document.getElementById("xp").textContent = "XP: " + (profile.xp ?? 0);
 
         if (profile.avatar) {
-            avatar.src = `/uploads/${profile.avatar}?t=${Date.now()}`;
+            avatar.src = profile.avatar + "?t=" + Date.now();
         } else {
             avatar.src = "/image/default-avatar.png";
         }
@@ -32,9 +32,6 @@ async function loadProfile() {
     }
 }
 
-// =========================
-// อัปโหลดรูป
-// =========================
 avatarInput.addEventListener("change", async () => {
 
     const file = avatarInput.files[0];
@@ -42,26 +39,27 @@ avatarInput.addEventListener("change", async () => {
 
     const formData = new FormData();
     formData.append("avatar", file);
-    formData.append("userId", user.id);
+    formData.append("userId", user.id); // FIX ตรงนี้
 
-    const res = await fetch("/upload-avatar", {
-        method: "POST",
-        body: formData
-    });
+    try {
+        const res = await fetch("/upload-avatar", {
+            method: "POST",
+            body: formData
+        });
 
-    const data = await res.json();
+        const data = await res.json();
+        if (data.success) {
+            avatar.src = data.avatar + "?t=" + Date.now();
+            user.avatar = data.avatar;
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            console.log("Upload failed:", data.message);
+        }
 
-    if (data.success) {
-
-        // อัปเดตรูปทันที
-        avatar.src = `/uploads/${data.avatar}?t=${Date.now()}`;
-
-        // sync localStorage
-        user.avatar = data.avatar;
-        localStorage.setItem("user", JSON.stringify(user));
+    } catch (err) {
+        console.error("Upload error:", err);
     }
 });
-
 // =========================
 // ปุ่มกลับหน้า home
 // =========================
