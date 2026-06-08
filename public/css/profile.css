@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+:root {
+    --bg: #1a1a22;
+    --card: #141418;
+    --accent: #ff2e2e;
+    --text: #ffffff;
+    --muted: #bdbdbd;
+}
+
+/* ======================
+   BASE
+====================== */
+* {
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: radial-gradient(circle at top, #1a1a22, #0d0d10);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ======================
+   PROFILE CARD
+====================== */
+.profile-card {
+    width: 70%;
+    max-width: 700px;
+    padding: 30px;
+    background: linear-gradient(180deg, #1f1f25, #141418);
+    border: 2px solid var(--accent);
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 46, 46, 0.15);
+}
+
+.profile-card h1 {
+    margin-bottom: 20px;
+}
+
+#username {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+/* ======================
+   AVATAR
+====================== */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent);
+}
+
+/* ======================
+   BUTTONS
+====================== */
+.profile_btn {
+    width: 180px;
+    height: 45px;
+    font-size: 0.95rem;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile_btn:hover {
+    background: #ff4f4f;
+    transform: translateY(-2px);
+}
+
+#homeBtn {
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #2a2a2f;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#homeBtn:hover {
+    background: #3a3a40;
+    transform: translateY(-2px);
+}
+
+/* ======================
+   STATS
+====================== */
+.stats-box {
+    margin: 25px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 15px;
+}
+
+.stats-box p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+/* XP BAR */
+.xp-bar {
+    width: 100%;
+    height: 8px;
+    background: #333;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+#xpFill {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, #6baeff, #9fd8ff);
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+
+    .profile-card {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    #username {
+        font-size: 1.5rem;
+    }
+
+    .stats-box p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .profile-card {
+        border-radius: 15px;
+    }
+
+    .profile_btn {
+        width: 150px;
+        height: 40px;
+        font-size: 0.85rem;
+    }
+
+    #homeBtn {
+        width: 100%;
+    }
+}
