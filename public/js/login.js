@@ -1,50 +1,24 @@
-async function login() {
+function login(username, password) {
+    return new Promise((resolve, reject) => {
+        try {
+            const user = db.prepare(
+                "SELECT id, username, role, avatar, level, xp FROM users WHERE username=? AND password=?"
+            ).get(username, password);
 
-    const username =
-        document.getElementById("username").value;
+            if (!user) {
+                return resolve({
+                    success: false,
+                    message: "Login failed"
+                });
+            }
 
-    const password =
-        document.getElementById("password").value;
+            resolve({
+                success: true,
+                user
+            });
 
-    const response = await fetch("/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username,
-            password
-        })
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-
-    if (data.success) {
-
-        localStorage.setItem(
-            "user",
-            JSON.stringify(data.user)
-        );
-
-        if (data.user.role === "admin") {
-
-            window.location.href =
-                "/admin/dashboard.html";
-
-        } else {
-
-            window.location.href =
-                "/index.html";
-
+        } catch (err) {
+            reject(err.message);
         }
-
-    }
-    else {
-
-        document.getElementById("result")
-            .textContent = data.message;
-
-    }
+    });
 }
