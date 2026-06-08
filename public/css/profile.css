@@ -99,7 +99,9 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
-
+.input{
+    display: none;
+}
 #homeBtn:hover {
     background: #3a3a40;
     transform: translateY(-2px);
@@ -142,9 +144,17 @@ body {
 ====================== */
 @media (max-width: 768px) {
 
+    body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+}
+
     .profile-card {
-        width: 95%;
-        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 15px;
     }
 
     .avatar {
