@@ -8,26 +8,34 @@ const { register, login } = require("./auth");
 
 const app = express();
 
+// =====================
+// STATE
+// =====================
 let bossHP = 100;
 let onlineUsers = {};
 
 // =====================
-// INIT
+// INIT FOLDER
 // =====================
-if (!fs.existsSync("public/uploads")) {
-    fs.mkdirSync("public/uploads", { recursive: true });
+const uploadDir = path.join(__dirname, "public/uploads");
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+// =====================
+// MIDDLEWARE
+// =====================
 app.use(express.json());
 app.use(express.static("public"));
-app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+app.use("/uploads", express.static(uploadDir));
 
 // =====================
 // MULTER
 // =====================
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "public/uploads/");
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
@@ -47,32 +55,20 @@ app.post("/game/reset", (req, res) => {
 app.post("/game/submit", (req, res) => {
     const { userId, questionId, answer } = req.body;
 
-    const q = db.prepare("SELECT answer FROM questions WHERE id = ?").get(questionId);
+    const q = db.prepare("SELECT answer FROM questions WHERE id=?").get(questionId);
+    if (!q) return res.json({ success: false });
 
-    if (!q) {
-        return res.json({ success: false });
-    }
-
-    const isCorrect = q.answer === answer;
-
-    if (!isCorrect) {
-        return res.json({
-            success: true,
-            correct: false,
-            bossHP
-        });
+    if (q.answer !== answer) {
+        return res.json({ success: true, correct: false, bossHP });
     }
 
     bossHP = Math.max(0, bossHP - 10);
 
-    const user = db.prepare("SELECT xp, level FROM users WHERE id = ?").get(userId);
+    const user = db.prepare("SELECT xp, level FROM users WHERE id=?").get(userId);
+    if (!user) return res.json({ success: false });
 
-    if (!user) {
-        return res.json({ success: false });
-    }
-
-    let newXP = user.xp + 10;
-    let newLevel = user.level;
+    let newXP = (user.xp || 0) + 10;
+    let newLevel = user.level || 1;
 
     if (newXP >= 300) {
         newLevel++;
@@ -108,13 +104,11 @@ app.post("/questions", (req, res) => {
     const { question, answer, option1, option2, option3, option4, difficulty } = req.body;
 
     try {
-        const stmt = db.prepare(`
+        const result = db.prepare(`
             INSERT INTO questions
             (question, answer, difficulty, option1, option2, option3, option4)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        `);
-
-        const result = stmt.run(
+        `).run(
             question,
             answer,
             difficulty,
@@ -179,7 +173,6 @@ app.delete("/users/:id", (req, res) => {
     }
 
     db.prepare("DELETE FROM users WHERE id=?").run(req.params.id);
-
     res.json({ success: true });
 });
 
@@ -193,7 +186,6 @@ app.put("/users/hide/:id", (req, res) => {
     }
 
     db.prepare("UPDATE users SET hidden=1 WHERE id=?").run(req.params.id);
-
     res.json({ success: true });
 });
 
@@ -211,17 +203,37 @@ app.get("/profile/:id", (req, res) => {
 });
 
 // =====================
-// LEADERBOARD
+// LEADERBOARD (FIXED)
 // =====================
 app.get("/leaderboard", (req, res) => {
-    const rows = db.prepare(`
-        SELECT id, username, xp, level, avatar
-        FROM users
-        WHERE role != 'admin' AND hidden = 0
-        ORDER BY level DESC, xp DESC
-        LIMIT 10
-    `).all();
+    try {
+        const rows = db.prepare(`
+            SELECT
+                id,
+                username,
+                COALESCE(xp, 0) AS xp,
+                COALESCE(level, 1) AS level,
+                avatar
+            FROM users
+            WHERE COALESCE(role,'user') != 'admin'
+            AND COALESCE(hidden,0) = 0
+            ORDER BY level DESC, xp DESC
+            LIMIT 10
+        `).all();
 
+        if (!rows) return res.json([]);
+
+        res.json(rows);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// DEBUG
+app.get("/debug-users", (req, res) => {
+    const rows = db.prepare("SELECT * FROM users").all();
     res.json(rows);
 });
 
@@ -230,8 +242,7 @@ app.get("/leaderboard", (req, res) => {
 // =====================
 app.post("/login", async (req, res) => {
     try {
-        const result = await login(req.body.username, req.body.password);
-        res.json(result);
+        res.json(await login(req.body.username, req.body.password));
     } catch (err) {
         res.status(500).json({ success: false, message: err });
     }
@@ -239,8 +250,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        const result = await register(req.body.username, req.body.password);
-        res.json(result);
+        res.json(await register(req.body.username, req.body.password));
     } catch (err) {
         res.status(500).json({ success: false, message: err });
     }
@@ -250,8 +260,7 @@ app.post("/register", async (req, res) => {
 // ONLINE USERS
 // =====================
 app.post("/online", (req, res) => {
-    const { userId } = req.body;
-    onlineUsers[userId] = Date.now();
+    onlineUsers[req.body.userId] = Date.now();
     res.json({ success: true });
 });
 
@@ -271,9 +280,7 @@ app.get("/online-users", (req, res) => {
     res.json(rows);
 });
 
-// =====================
-// CLEAN OLD ONLINE USERS
-// =====================
+// cleanup
 setInterval(() => {
     const now = Date.now();
 
@@ -285,7 +292,7 @@ setInterval(() => {
 }, 10000);
 
 // =====================
-// START SERVER
+// START
 // =====================
 const PORT = process.env.PORT || 3000;
 
