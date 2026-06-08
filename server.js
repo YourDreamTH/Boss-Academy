@@ -35,8 +35,8 @@ app.post("/game/reset", (req, res) => {
 app.post("/game/submit", (req, res) => {
 
     const { userId, questionId, answer } = req.body;
-
-    db.get(
+   
+    prepare().get(
         "SELECT answer FROM questions WHERE id = ?",
         [questionId],
         (err, q) => {
@@ -59,7 +59,7 @@ app.post("/game/submit", (req, res) => {
 
             bossHP = Math.max(0, bossHP - 10);
 
-            db.get(
+           prepare().get(
                 "SELECT xp, level FROM users WHERE id = ?",
                 [userId],
                 (err2, user) => {
@@ -78,7 +78,7 @@ app.post("/game/submit", (req, res) => {
                         newXP -= 300;
                     }
 
-                    db.run(
+                    prepare().run(
                         "UPDATE users SET xp=?, level=? WHERE id=?",
                         [newXP, newLevel, userId]
                     );
@@ -97,7 +97,7 @@ app.post("/game/submit", (req, res) => {
 });
 app.get("/questions", (req, res) => {
 
-    db.all(
+   prepare().all(
         "SELECT * FROM questions ORDER BY id DESC",
         [],
         (err, rows) => {
@@ -124,7 +124,7 @@ app.put("/questions/:id", (req, res) => {
         option4
     } = req.body;
 
-    db.run(
+   prepare().run(
         `
         UPDATE questions
         SET question=?,
@@ -162,7 +162,7 @@ app.put("/questions/:id", (req, res) => {
 });
 app.delete("/questions/:id", (req, res) => {
 
-    db.run(
+  prepare().run(
         "DELETE FROM questions WHERE id=?",
         [req.params.id],
         function (err) {
@@ -188,7 +188,7 @@ app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
     const userId = req.body.userId;
     const avatar = req.file.filename;
 
-    db.run(
+   prepare().run(
         "UPDATE users SET avatar = ? WHERE id = ?",
         [avatar, userId],
         (err) => {
@@ -208,7 +208,7 @@ app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
 // PROFILE
 // =====================
 app.get("/profile/:id", (req, res) => {
-    db.get(
+  prepare().get(
         "SELECT * FROM users WHERE id = ?",
         [req.params.id],
         (err, user) => {
@@ -220,7 +220,7 @@ app.get("/profile/:id", (req, res) => {
     );
 });
 app.get("/question/random", (req, res) => {
-    db.get(
+   prepare().get(
         "SELECT * FROM questions ORDER BY RANDOM() LIMIT 1",
         [],
         (err, row) => {
@@ -246,7 +246,7 @@ app.get("/leaderboard", (req, res) => {
         LIMIT 10
     `;
 
-    db.all(sql, [], (err, rows) => {
+  prepare().all(sql, [], (err, rows) => {
 
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -317,7 +317,7 @@ app.get("/online-users", (req, res) => {
 
     const placeholders = ids.map(() => "?").join(",");
 
-    db.all(
+   prepare().all(
         `SELECT id, username, level, avatar
          FROM users
          WHERE id IN (${placeholders})`,
@@ -344,7 +344,7 @@ app.post("/questions", (req, res) => {
         difficulty
     } = req.body;
 
-    db.run(
+  prepare().run(
         `
         INSERT INTO questions
         (
@@ -388,7 +388,7 @@ app.post("/questions", (req, res) => {
 });
 app.get("/users", (req, res) => {
 
-    db.all(
+  prepare().all(
         `
         SELECT
             id,
@@ -417,7 +417,7 @@ app.get("/users", (req, res) => {
 });
 app.delete("/users/:id", (req, res) => {
 
-    db.get(
+   prepare().get(
         "SELECT role FROM users WHERE id = ?",
         [req.params.id],
         (err, user) => {
@@ -435,7 +435,7 @@ app.delete("/users/:id", (req, res) => {
                 });
             }
 
-            db.run(
+          prepare().run(
                 "DELETE FROM users WHERE id = ?",
                 [req.params.id],
                 function (err) {
@@ -458,44 +458,30 @@ app.delete("/users/:id", (req, res) => {
 app.put("/users/hide/:id", (req, res) => {
     const id = req.params.id;
 
-    db.get("SELECT role FROM users WHERE id = ?", [id], (err, user) => {
+    const user = db.prepare("SELECT role FROM users WHERE id = ?").get(id);
 
-        if (err || !user) {
-            return res.status(404).json({
-                success: false
-            });
-        }
+    if (!user) {
+        return res.status(404).json({ success: false });
+    }
 
-        if (user.role === "admin") {
-            return res.status(403).json({
-                success: false,
-                message: "Cannot hide admin"
-            });
-        }
+    if (user.role === "admin") {
+        return res.status(403).json({
+            success: false,
+            message: "Cannot hide admin"
+        });
+    }
 
-        db.run(
-            "UPDATE users SET hidden = 1 WHERE id=?",
-            [id],
-            function (err) {
+    try {
+        db.prepare("UPDATE users SET hidden = 1 WHERE id = ?").run(id);
 
-                if (err) {
-                    return res.status(500).json({
-                        success: false
-                    });
-                }
-
-                res.json({
-                    success: true
-                });
-
-            }
-        );
-
-    });
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
 });
 app.put("/users/unhide/:id", (req, res) => {
 
-    db.run(
+  prepare().run(
         "UPDATE users SET hidden = 0 WHERE id=?",
         [req.params.id],
         function (err) {

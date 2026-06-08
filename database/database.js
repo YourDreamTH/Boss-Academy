@@ -1,16 +1,12 @@
-const sqlite3 = require("sqlite3").verbose();
+const Database = require("better-sqlite3");
 const path = require("path");
 
 const dbPath = path.join(__dirname, "database.db");
 
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error("DB Error:", err.message);
-    } else {
-        console.log("Connected DB:", dbPath);
-        db.run("PRAGMA journal_mode=WAL;");
-    }
-});
+const db = new Database(dbPath);
 
-console.log("DB PATH =", dbPath);
+db.pragma("journal_mode = WAL");
+
+console.log("Connected DB:", dbPath);
+
 module.exports = db;
