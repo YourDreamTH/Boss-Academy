@@ -303,7 +303,11 @@ setInterval(() => {
         }
     });
 }, 10000);
-
+db.prepare(`
+    UPDATE users
+    SET avatar='/image/default-avatar.png'
+    WHERE avatar='/public/image/default-avatar.png'
+`).run();
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

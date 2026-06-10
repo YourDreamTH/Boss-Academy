@@ -7,9 +7,6 @@ if (!user) {
     window.location.href = "login.html";
 }
 
-// =========================
-// โหลดข้อมูลโปรไฟล์
-// =========================
 async function loadProfile() {
 
     try {
@@ -21,7 +18,13 @@ async function loadProfile() {
         document.getElementById("level").textContent = "Level: " + (profile.level ?? 1);
         document.getElementById("xp").textContent = "XP: " + (profile.xp ?? 0);
 
-        if (profile.avatar) {
+        if (
+            profile.avatar &&
+            (
+                profile.avatar.startsWith("/uploads/") ||
+                profile.avatar.startsWith("/image/")
+            )
+        ) {
             avatar.src = profile.avatar;
         } else {
             avatar.src = "/image/default-avatar.png";

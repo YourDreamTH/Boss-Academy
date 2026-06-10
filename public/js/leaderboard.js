@@ -32,9 +32,10 @@ async function loadLeaderboard() {
 
                     <td class="player">
                         <img class="avatar"
-                            src="${user.avatar
-                            ? user.avatar
-                            : '/image/default-avatar.png'
+                           src="${user.avatar &&
+                    user.avatar.startsWith('/uploads/')
+                    ? user.avatar
+                    : '/image/default-avatar.png'
                 }"
                         <span>${user.username || "Unknown"}</span>
                     </td>

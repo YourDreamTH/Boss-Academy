@@ -3,7 +3,7 @@ const db = require("./database/database.js");
 function register(username, password) {
     return new Promise((resolve, reject) => {
 
-        
+
         const existing = db.prepare(
             "SELECT id FROM users WHERE username = ?"
         ).get(username);
@@ -16,10 +16,8 @@ function register(username, password) {
         }
 
         try {
-            const result = db.prepare(`
-                INSERT INTO users (username, password, xp, level, role, avatar, hidden)
-                VALUES (?, ?, 0, 1, 'user', 'default.png', 0)
-            `).run(username, password);
+            const result = db.prepare(`INSERT INTO users (username, password, xp, level, role, avatar, hidden)
+            VALUES (?, ?, 0, 1, 'user', '/image/default-avatar.png', 0)`).run(username, password);
 
             resolve({
                 success: true,
