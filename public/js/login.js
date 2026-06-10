@@ -1,10 +1,7 @@
 async function login() {
 
-    const username =
-        document.getElementById("username").value;
-
-    const password =
-        document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
     try {
 
@@ -21,6 +18,8 @@ async function login() {
 
         const data = await response.json();
 
+        console.log(data);
+
         if (data.success) {
 
             localStorage.setItem(
@@ -28,11 +27,22 @@ async function login() {
                 JSON.stringify(data.user)
             );
 
-            window.location.href = "index.html";
+            // Admin
+            if (data.user.role === "admin") {
+
+                window.location.href = "/admin/dashboard.html";
+
+            }
+            // User ปกติ
+            else {
+
+                window.location.href = "index.html";
+
+            }
 
         } else {
 
-            alert(data.message);
+            alert(data.message || "Login Failed");
 
         }
 
