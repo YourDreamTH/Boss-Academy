@@ -1,12 +1,9 @@
 const db = require("./database/database.js");
 
-// =====================
-// REGISTER
-// =====================
 function register(username, password) {
     return new Promise((resolve, reject) => {
 
-        // กัน username ซ้ำ
+        
         const existing = db.prepare(
             "SELECT id FROM users WHERE username = ?"
         ).get(username);
@@ -36,9 +33,6 @@ function register(username, password) {
     });
 }
 
-// =====================
-// LOGIN
-// =====================
 function login(username, password) {
     return new Promise((resolve, reject) => {
 

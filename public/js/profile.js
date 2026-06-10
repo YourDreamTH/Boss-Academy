@@ -22,7 +22,7 @@ async function loadProfile() {
         document.getElementById("xp").textContent = "XP: " + (profile.xp ?? 0);
 
         if (profile.avatar) {
-            avatar.src = getAvatar(profile.avatar);
+            avatar.src = profile.avatar;
         } else {
             avatar.src = "/image/default-avatar.png";
         }

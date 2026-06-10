@@ -1,24 +1,45 @@
-function login(username, password) {
-    return new Promise((resolve, reject) => {
-        try {
-            const user = db.prepare(
-                "SELECT id, username, role, avatar, level, xp FROM users WHERE username=? AND password=?"
-            ).get(username, password);
+async function login() {
 
-            if (!user) {
-                return resolve({
-                    success: false,
-                    message: "Login failed"
-                });
-            }
+    const username =
+        document.getElementById("username").value;
 
-            resolve({
-                success: true,
-                user
-            });
+    const password =
+        document.getElementById("password").value;
 
-        } catch (err) {
-            reject(err.message);
+    try {
+
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+            window.location.href = "index.html";
+
+        } else {
+
+            alert(data.message);
+
         }
-    });
+
+    } catch (err) {
+
+        console.error(err);
+        alert("Server Error");
+
+    }
 }

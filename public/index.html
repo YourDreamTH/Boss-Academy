@@ -266,7 +266,7 @@
 
                 document.getElementById("avatar").src =
                     user.avatar
-                        ? "/uploads/" + user.avatar
+                        ? user.avatar
                         : "image/default-avatar.png";
 
                 profileBox.addEventListener("click", () => {

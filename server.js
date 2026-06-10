@@ -217,17 +217,13 @@ app.put("/users/unhide/:id", (req, res) => {
     res.json({ success: true });
 });
 
-// =====================
-// PROFILE
-// =====================
+
 app.get("/profile/:id", (req, res) => {
     const user = db.prepare("SELECT * FROM users WHERE id=?").get(req.params.id);
     res.json(user || { success: false });
 });
 
-// =====================
-// LEADERBOARD (FIXED)
-// =====================
+
 app.get("/leaderboard", (req, res) => {
     try {
         const rows = db.prepare(`
@@ -254,15 +250,11 @@ app.get("/leaderboard", (req, res) => {
     }
 });
 
-// DEBUG
 app.get("/debug-users", (req, res) => {
     const rows = db.prepare("SELECT * FROM users").all();
     res.json(rows);
 });
 
-// =====================
-// AUTH
-// =====================
 app.post("/login", async (req, res) => {
     try {
         res.json(await login(req.body.username, req.body.password));
@@ -279,9 +271,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// =====================
-// ONLINE USERS
-// =====================
+
 app.post("/online", (req, res) => {
     onlineUsers[req.body.userId] = Date.now();
     res.json({ success: true });
@@ -314,9 +304,6 @@ setInterval(() => {
     });
 }, 10000);
 
-// =====================
-// START
-// =====================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
